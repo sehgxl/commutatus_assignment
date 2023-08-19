@@ -33,7 +33,7 @@ function App() {
           ) : (
             <>
               <h1 className="text-center text-3xl">Employees</h1>
-              {data.map((division, idx) => {
+              {data?.map((division, idx) => {
                 const { head, teams = [], division_name } = division
                 return (
                   <Division

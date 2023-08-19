@@ -31,7 +31,7 @@ const Division = ({ head, teams, division_name }) => {
           />
         </div>
 
-        {teams.map((team, idx) => {
+        {teams?.map((team, idx) => {
           const { name, lead, members } = team
 
           return (

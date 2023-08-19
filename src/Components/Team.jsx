@@ -31,7 +31,7 @@ const Team = ({ team_name, lead, members, division_name }) => {
           />
 
           <section className="mt-4 flex flex-row items-start gap-4">
-            {members.map((member, idx) => {
+            {members?.map((member, idx) => {
               return (
                 <Employee
                   emp_data={{
