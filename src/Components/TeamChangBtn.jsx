@@ -14,14 +14,14 @@ const TeamChangBtn = ({ emp_data }) => {
         setOptions(division["teams"])
       }
     }
-  }, [])
+  }, [division_name])
   return (
     <>
       <select
         onChange={(e) => {
           change_team(emp_data, e.target.value, setData)
         }}
-        className="rounded-lg px-3 py-1 text-base"
+        className="transiton rounded-lg px-3 py-1 text-lg duration-150 ease-out hover:bg-blue-300"
         name=""
         id=""
       >
