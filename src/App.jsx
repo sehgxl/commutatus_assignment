@@ -12,7 +12,10 @@ function App() {
   useEffect(() => {
     try {
       setLoading(true)
-      if (localStorage.getItem("data") === "" || null) {
+      if (
+        localStorage.getItem("data") === "" ||
+        localStorage.getItem("data") === null
+      ) {
         popuplateData()
       }
       setdata(getData())
