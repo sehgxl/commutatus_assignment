@@ -2,7 +2,7 @@ import { Fragment } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import AddMemberform from "./AddMemberform"
-import EditMemberForm from "./EditMemberForm"
+import EditMemberForm from "./EditMemberform"
 import AddTeamForm from "./AddTeamForm"
 export default function Sidepanel({
   open,

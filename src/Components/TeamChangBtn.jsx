@@ -14,7 +14,7 @@ const TeamChangBtn = ({ emp_data }) => {
         setOptions(division["teams"])
       }
     }
-  }, [division_name])
+  }, [emp_data])
   return (
     <>
       <select

@@ -104,13 +104,13 @@ export function add_team(team_data, setData) {
           phone: phone,
           email: email,
         },
+        members: [],
       })
     }
   }
   localStorage.setItem("data", JSON.stringify(divisions))
   setData(divisions)
 }
-
 export function del_team(team_name, division_name, setData) {
   const divisions = getData()
 

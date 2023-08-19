@@ -25,6 +25,7 @@ function App() {
       console.log(error)
     }
   }, [])
+
   return (
     <DataContext.Provider value={setdata}>
       <section className="min-h-screen bg-neutral-200 px-5 py-3 text-neutral-900">
