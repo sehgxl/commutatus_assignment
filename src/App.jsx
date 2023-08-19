@@ -16,7 +16,6 @@ function App() {
         localStorage.getItem("data") === "" ||
         localStorage.getItem("data") === null
       ) {
-        console.log(localStorage.getItem("data"))
         popuplateData()
       }
       setdata(getData())

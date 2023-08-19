@@ -8,7 +8,6 @@ export function getData() {
   return JSON.parse(data)
 }
 export function popuplateData() {
-  console.log("in popuplateData")
   const data = [
     {
       division_name: "Bussiness",
