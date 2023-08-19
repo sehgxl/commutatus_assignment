@@ -8,13 +8,11 @@ function App() {
   const [data, setdata] = useState([])
 
   useEffect(() => {
-    try {
+    if (typeof window !== "undefined") {
       if (localStorage.getItem("data") === "" || null) {
         popuplateData()
       }
       setdata(getData())
-    } catch (error) {
-      console.log(error)
     }
   }, [])
   return (

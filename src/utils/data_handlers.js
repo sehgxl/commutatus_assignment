@@ -4,8 +4,10 @@ export function clearData() {
   localStorage.setItem("data", "")
 }
 export function getData() {
-  const data = localStorage.getItem("data")
-  return JSON.parse(data)
+  if (typeof window !== "undefined") {
+    const data = localStorage.getItem("data")
+    return JSON.parse(data)
+  }
 }
 export function popuplateData() {
   const data = [
@@ -126,5 +128,7 @@ export function popuplateData() {
       ],
     },
   ]
-  localStorage.setItem("data", JSON.stringify(data))
+  if (typeof window !== "undefined") {
+    localStorage.setItem("data", JSON.stringify(data))
+  }
 }
