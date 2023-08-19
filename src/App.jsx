@@ -8,10 +8,12 @@ function App() {
   const [data, setdata] = useState([])
 
   useEffect(() => {
-    if (localStorage.getItem("data") === "" || null) {
-      popuplateData()
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("data") === "" || null) {
+        popuplateData()
+      }
+      setdata(getData())
     }
-    setdata(getData())
   }, [])
   return (
     <DataContext.Provider value={setdata}>
