@@ -1,30 +1,33 @@
 import { useContext, useState } from "react"
 import { DataContext } from "../utils/datacontext"
-import { edit_team } from "../utils/form_handlers"
+import { add_team } from "../utils/form_handlers"
 
-const EditMemberform = ({ setOpen, emp_data }) => {
-  const { name, email, phone, position, team_name, division_name, emp_id } =
-    emp_data
+const AddTeamForm = ({ setOpen, division_name }) => {
   const setData = useContext(DataContext)
-  const [Name, setName] = useState(name)
-  const [Email, setEmail] = useState(email)
-  const [Phone, setPhone] = useState(phone)
+  const [TeamName, setTeamName] = useState("")
+  const [Name, setName] = useState("")
+  const [Email, setEmail] = useState("")
+  const [Phone, setPhone] = useState()
+
   return (
     <>
       <h1 className="text-xl"></h1>
       <form
-        id="edit_team_member"
+        id="add_team"
         onSubmit={(e) => {
           e.preventDefault()
-          edit_team(
+          add_team(
             {
-              name: Name,
-              email: Email,
-              team_name: team_name,
+              team_name: TeamName,
               division_name: division_name,
-              phone: Phone,
-              emp_id: emp_id,
-              position: position,
+              emp_data: {
+                name: Name,
+                email: Email,
+                phone: Phone,
+                team_name: TeamName,
+                division_name: division_name,
+                position: "Team Leader",
+              },
             },
             setData
           )
@@ -32,6 +35,19 @@ const EditMemberform = ({ setOpen, emp_data }) => {
         }}
         className="mt-4 flex flex-col gap-2"
       >
+        <label className="" htmlFor="">
+          Team Name
+        </label>
+        <input
+          value={TeamName}
+          onChange={(e) => {
+            setTeamName(e.target.value)
+          }}
+          placeholder="Frontend"
+          className="rounded-lg border-2 border-neutral-200 px-3 py-1 placeholder:text-neutral-200"
+          type="text"
+        />
+        <h1 className="font-semibold text-gray-800">Team Lead Details</h1>
         <label className="" htmlFor="">
           Name
         </label>
@@ -71,9 +87,10 @@ const EditMemberform = ({ setOpen, emp_data }) => {
           type="number"
         />
       </form>
+
       <button
-        className="mt-4 w-max rounded-lg bg-neutral-200 px-3 py-1"
-        form="edit_team_member"
+        className="mt-4 w-max rounded-lg bg-neutral-200 px-3 py-1 duration-150 ease-out hover:bg-green-300"
+        form="add_team"
         type="submit"
       >
         Submit
@@ -82,4 +99,4 @@ const EditMemberform = ({ setOpen, emp_data }) => {
   )
 }
 
-export default EditMemberform
+export default AddTeamForm

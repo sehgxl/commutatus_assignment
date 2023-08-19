@@ -86,3 +86,47 @@ export function edit_team(emp_data, setData) {
   localStorage.setItem("data", JSON.stringify(divisions))
   setData(divisions)
 }
+
+export function add_team(team_data, setData) {
+  const { team_name, division_name, emp_data } = team_data
+  const { name, emp_id, email, phone } = emp_data
+
+  const divisions = getData()
+
+  for (const division of divisions) {
+    if (division["division_name"] === division_name) {
+      division.teams.push({
+        name: team_name,
+        lead: {
+          name: name,
+          position: "Team Leader",
+          emp_id: emp_id || count++,
+          phone: phone,
+          email: email,
+        },
+      })
+    }
+  }
+  localStorage.setItem("data", JSON.stringify(divisions))
+  setData(divisions)
+}
+
+export function del_team(team_name, division_name, setData) {
+  console.log(team_name)
+  const divisions = getData()
+
+  for (const division of divisions) {
+    if (division["division_name"] === division_name) {
+      let updatedTeams = []
+
+      for (const team of division.teams) {
+        if (team.name !== team_name) {
+          updatedTeams.push(team)
+        }
+      }
+      division.teams = updatedTeams
+    }
+  }
+  localStorage.setItem("data", JSON.stringify(divisions))
+  setData(divisions)
+}

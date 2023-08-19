@@ -1,11 +1,13 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Sidepanel from "../Components/Sidepanel"
 import Employee from "./Employee"
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline"
+import { del_team } from "../utils/form_handlers"
+import { DataContext } from "../utils/datacontext"
 const Team = ({ team_name, lead, members, division_name }) => {
   const [open, setOpen] = useState(false)
   const [Child, setChild] = useState(true)
-
+  const setData = useContext(DataContext)
   return (
     <section className="ml-20">
       <Sidepanel
@@ -34,17 +36,27 @@ const Team = ({ team_name, lead, members, division_name }) => {
 
         {Child ? (
           <div className="border-l-2 border-neutral-300 pl-2">
-            <Employee
-              emp_data={{
-                name: lead.name,
-                position: lead.position,
-                team_name: team_name,
-                emp_id: lead.emp_id,
-                phone: lead.phone,
-                email: lead.email,
-                division_name: division_name,
-              }}
-            />
+            <div className="flex flex-row gap-4">
+              <Employee
+                emp_data={{
+                  name: lead.name,
+                  position: lead.position,
+                  team_name: team_name,
+                  emp_id: lead.emp_id,
+                  phone: lead.phone,
+                  email: lead.email,
+                  division_name: division_name,
+                }}
+              />
+              <button
+                onClick={() => {
+                  del_team(team_name, division_name, setData)
+                }}
+                className="transiton h-max self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-red-300"
+              >
+                Delete this team
+              </button>
+            </div>
 
             <section className="mt-4 flex flex-row items-start gap-4">
               {members?.map((member, idx) => {

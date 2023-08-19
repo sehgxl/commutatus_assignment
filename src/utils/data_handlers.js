@@ -32,7 +32,7 @@ export function popuplateData() {
       },
       teams: [
         {
-          name: "team1",
+          name: "Frontend",
           lead: {
             name: "toby",
             position: "Team Leader",
@@ -58,7 +58,7 @@ export function popuplateData() {
           ],
         },
         {
-          name: "team2",
+          name: "Backend",
           lead: {
             name: "elon",
             position: "Team Leader",
@@ -98,7 +98,7 @@ export function popuplateData() {
       },
       teams: [
         {
-          name: "team1",
+          name: "UI/UX",
           lead: {
             name: "paul",
             position: "Team Leaderer",

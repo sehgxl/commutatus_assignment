@@ -2,7 +2,8 @@ import { Fragment } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import AddMemberform from "./AddMemberform"
-import EditMemberform from "./EditMemberform"
+import EditMemberForm from "./EditMemberForm"
+import AddTeamForm from "./AddTeamForm"
 export default function Sidepanel({
   open,
   setOpen,
@@ -65,20 +66,29 @@ export default function Sidepanel({
                         <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
                           Edit Team Member Details
                         </Dialog.Title>
-                      ) : (
+                      ) : team_name ? (
                         <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
                           Add Team Member Details
+                        </Dialog.Title>
+                      ) : (
+                        <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
+                          Add Team Details
                         </Dialog.Title>
                       )}
                     </div>
                     <div className="relative flex-1 px-4 sm:px-6">
                       {emp_data !== undefined ? (
-                        <EditMemberform setOpen={setOpen} emp_data={emp_data} />
-                      ) : (
+                        <EditMemberForm setOpen={setOpen} emp_data={emp_data} />
+                      ) : team_name ? (
                         <AddMemberform
                           division_name={division_name}
                           setOpen={setOpen}
                           team_name={team_name}
+                        />
+                      ) : (
+                        <AddTeamForm
+                          division_name={division_name}
+                          setOpen={setOpen}
                         />
                       )}
                     </div>

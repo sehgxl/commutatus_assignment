@@ -1,29 +1,31 @@
-// import handle_team_member from "../utils/handle_team_member."
-
 import { useContext, useState } from "react"
 import { DataContext } from "../utils/datacontext"
-import { add_team_member } from "../utils/form_handlers"
+import { edit_team } from "../utils/form_handlers"
 
-const AddMemberform = ({ setOpen, team_name, division_name }) => {
+const EditMemberForm = ({ setOpen, emp_data }) => {
+  const { name, email, phone, position, team_name, division_name, emp_id } =
+    emp_data
   const setData = useContext(DataContext)
-  const [Name, setName] = useState("")
-  const [Email, setEmail] = useState("")
-  const [Phone, setPhone] = useState()
-
+  const [Name, setName] = useState(name)
+  const [Email, setEmail] = useState(email)
+  const [Phone, setPhone] = useState(phone)
   return (
     <>
       <h1 className="text-xl"></h1>
       <form
-        id="add_team_member"
+        id="edit_team_member"
         onSubmit={(e) => {
           e.preventDefault()
-          add_team_member(
+
+          edit_team(
             {
               name: Name,
               email: Email,
               team_name: team_name,
               division_name: division_name,
               phone: Phone,
+              emp_id: emp_id,
+              position: position,
             },
             setData
           )
@@ -72,7 +74,7 @@ const AddMemberform = ({ setOpen, team_name, division_name }) => {
       </form>
       <button
         className="mt-4 w-max rounded-lg bg-neutral-200 px-3 py-1 duration-150 ease-out hover:bg-green-300"
-        form="add_team_member"
+        form="edit_team_member"
         type="submit"
       >
         Submit
@@ -81,4 +83,4 @@ const AddMemberform = ({ setOpen, team_name, division_name }) => {
   )
 }
 
-export default AddMemberform
+export default EditMemberForm
