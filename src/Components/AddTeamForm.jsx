@@ -1,14 +1,16 @@
 import { useContext, useState } from "react"
 import { DataContext } from "../utils/datacontext"
-import { add_team } from "../utils/form_handlers"
+import { add_team, check_team_name } from "../utils/form_handlers"
 
 const AddTeamForm = ({ setOpen, division_name }) => {
   const setData = useContext(DataContext)
-  const [TeamName, setTeamName] = useState("")
+  const [TeamName, setTeamName] = useState({
+    value: "",
+    error: false,
+  })
   const [Name, setName] = useState("")
   const [Email, setEmail] = useState("")
   const [Phone, setPhone] = useState()
-
   return (
     <>
       <h1 className="text-xl"></h1>
@@ -16,22 +18,27 @@ const AddTeamForm = ({ setOpen, division_name }) => {
         id="add_team"
         onSubmit={(e) => {
           e.preventDefault()
-          add_team(
-            {
-              team_name: TeamName,
-              division_name: division_name,
-              emp_data: {
-                name: Name,
-                email: Email,
-                phone: Phone,
-                team_name: TeamName,
+          if (!check_team_name(TeamName.value, division_name)) {
+            add_team(
+              {
+                team_name: TeamName.value,
                 division_name: division_name,
-                position: "Team Leader",
+                emp_data: {
+                  name: Name,
+                  email: Email,
+                  phone: Phone,
+                  team_name: TeamName.value,
+                  division_name: division_name,
+                  position: "Team Leader",
+                },
               },
-            },
-            setData
-          )
-          setOpen(false)
+              setData
+            )
+            setTeamName((old) => ({ ...old, error: false }))
+            setOpen(false)
+          } else {
+            setTeamName((old) => ({ ...old, error: true }))
+          }
         }}
         className="mt-4 flex flex-col gap-2"
       >
@@ -39,14 +46,18 @@ const AddTeamForm = ({ setOpen, division_name }) => {
           Team Name
         </label>
         <input
-          value={TeamName}
+          value={TeamName.value}
           onChange={(e) => {
-            setTeamName(e.target.value)
+            setTeamName((old) => ({ ...old, value: e.target.value }))
           }}
           placeholder="Frontend"
           className="rounded-lg border-2 border-neutral-200 px-3 py-1 placeholder:text-neutral-200"
           type="text"
         />
+
+        {TeamName.error ? (
+          <h1 className="text-lg text-red-500">Team name already exists!</h1>
+        ) : null}
         <h1 className="font-semibold text-gray-800">Team Lead Details</h1>
         <label className="" htmlFor="">
           Name

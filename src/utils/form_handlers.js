@@ -112,7 +112,6 @@ export function add_team(team_data, setData) {
 }
 
 export function del_team(team_name, division_name, setData) {
-  console.log(team_name)
   const divisions = getData()
 
   for (const division of divisions) {
@@ -129,4 +128,19 @@ export function del_team(team_name, division_name, setData) {
   }
   localStorage.setItem("data", JSON.stringify(divisions))
   setData(divisions)
+}
+
+export function check_team_name(team_name, division_name) {
+  const divisions = getData()
+  for (const division of divisions) {
+    if (division.division_name === division_name) {
+      for (const team of division.teams) {
+        if (team.name === team_name) {
+          return true
+        }
+      }
+    }
+  }
+
+  return false
 }
