@@ -4,12 +4,11 @@ export function clearData() {
   localStorage.setItem("data", "")
 }
 export function getData() {
-  if (typeof window !== "undefined") {
-    const data = localStorage.getItem("data")
-    return JSON.parse(data)
-  }
+  const data = localStorage.getItem("data")
+  return JSON.parse(data)
 }
 export function popuplateData() {
+  console.log("in popuplateData")
   const data = [
     {
       division_name: "Bussiness",
@@ -128,7 +127,6 @@ export function popuplateData() {
       ],
     },
   ]
-  if (typeof window !== "undefined") {
-    localStorage.setItem("data", JSON.stringify(data))
-  }
+
+  localStorage.setItem("data", JSON.stringify(data))
 }
