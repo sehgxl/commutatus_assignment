@@ -1,8 +1,8 @@
 import { useContext, useState } from "react"
 import { DataContext } from "../utils/datacontext"
-import { edit_team } from "../utils/form_handlers"
+import { edit_team_member } from "../utils/form_handlers"
 
-const EditMemberForm = ({ setOpen, emp_data }) => {
+const EditMemberForm = ({ setOpen, emp_data, setter }) => {
   const { name, email, phone, position, team_name, division_name, emp_id } =
     emp_data
   const setData = useContext(DataContext)
@@ -17,7 +17,7 @@ const EditMemberForm = ({ setOpen, emp_data }) => {
         onSubmit={(e) => {
           e.preventDefault()
 
-          edit_team(
+          edit_team_member(
             {
               name: Name,
               email: Email,
@@ -27,7 +27,7 @@ const EditMemberForm = ({ setOpen, emp_data }) => {
               emp_id: emp_id,
               position: position,
             },
-            setData
+            setter
           )
           setOpen(false)
         }}

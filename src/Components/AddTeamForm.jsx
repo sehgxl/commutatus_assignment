@@ -2,7 +2,7 @@ import { useContext, useState } from "react"
 import { DataContext } from "../utils/datacontext"
 import { add_team, check_team_name } from "../utils/form_handlers"
 
-const AddTeamForm = ({ setOpen, division_name }) => {
+const AddTeamForm = ({ setOpen, division_name, setter }) => {
   const setData = useContext(DataContext)
   const [TeamName, setTeamName] = useState({
     value: "",
@@ -21,18 +21,13 @@ const AddTeamForm = ({ setOpen, division_name }) => {
           if (!check_team_name(TeamName.value, division_name)) {
             add_team(
               {
+                name: Name,
+                email: Email,
+                phone: Phone,
                 team_name: TeamName.value,
                 division_name: division_name,
-                emp_data: {
-                  name: Name,
-                  email: Email,
-                  phone: Phone,
-                  team_name: TeamName.value,
-                  division_name: division_name,
-                  position: "Team Leader",
-                },
               },
-              setData
+              setter
             )
             setTeamName((old) => ({ ...old, error: false }))
             setOpen(false)

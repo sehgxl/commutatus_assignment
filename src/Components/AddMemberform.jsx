@@ -4,7 +4,7 @@ import { useContext, useState } from "react"
 import { DataContext } from "../utils/datacontext"
 import { add_team_member } from "../utils/form_handlers"
 
-const AddMemberform = ({ setOpen, team_name, division_name }) => {
+const AddMemberform = ({ setOpen, team_name, setter, division_name }) => {
   const setData = useContext(DataContext)
   const [Name, setName] = useState("")
   const [Email, setEmail] = useState("")
@@ -25,7 +25,7 @@ const AddMemberform = ({ setOpen, team_name, division_name }) => {
               division_name: division_name,
               phone: Phone,
             },
-            setData
+            setter
           )
           setOpen(false)
         }}

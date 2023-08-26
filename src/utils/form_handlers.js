@@ -1,144 +1,94 @@
-import { getData } from "./data_handlers"
-let count = 10
-export function del_team_member(emp_data, setData) {
-  const { name, email, division_name, team_name } = emp_data
-  const divisions = getData()
+import { clearData, getData } from "./data_handlers"
+let count = 18
 
-  for (const division of divisions) {
-    if (division["division_name"] === division_name) {
-      for (const team of division["teams"]) {
-        if (team["name"] === team_name) {
-          let updateMembers = []
-          team.members.forEach((member) => {
-            if (member.name !== name && member.email !== email) {
-              updateMembers.push(member)
-            }
-          })
-          team.members = updateMembers
-        }
-      }
+export function update_member_list(data, division_name, team_name) {
+  let memberlist = []
+  data.forEach((emp) => {
+    if (emp.division_name === division_name && emp.team_name === team_name) {
+      memberlist.push(emp)
     }
-  }
-  localStorage.setItem("data", JSON.stringify(divisions))
-  setData(divisions)
+  })
+
+  return memberlist
 }
 
-export function add_team_member(emp_data, setData) {
-  const { name, emp_id, email, division_name, team_name, phone } = emp_data
-
-  const divisions = getData()
-
-  for (const division of divisions) {
-    if (division["division_name"] === division_name) {
-      for (const team of division["teams"]) {
-        if (team["name"] === team_name) {
-          team.members.push({
-            name: name,
-            position: "Team Member",
-            emp_id: emp_id || count++,
-            email: email,
-            phone: phone,
-          })
-        }
-      }
-    }
-  }
-  localStorage.setItem("data", JSON.stringify(divisions))
-  setData(divisions)
+export function del_team_member(emp_data, setter) {
+  const { emp_id, division_name, team_name } = emp_data
+  let data = getData()
+  data = data.filter((emp) => emp.emp_id !== emp_id)
+  const member_list = update_member_list(data, division_name, team_name)
+  setter(member_list)
+  localStorage.setItem("data", JSON.stringify(data))
 }
 
-export function change_team(emp_data, new_team, setData) {
-  del_team_member(emp_data, setData)
-  add_team_member({ ...emp_data, team_name: new_team }, setData)
+export function add_team_member(emp, setter) {
+  emp.emp_id = emp.emp_id || count++
+  emp.position = "Team Member"
+
+  const data = getData()
+  data.push(emp)
+  const memberlist = update_member_list(data, emp.division_name, emp.team_name)
+  setter(memberlist)
+  localStorage.setItem("data", JSON.stringify(data))
 }
 
-export function edit_team(emp_data, setData) {
-  const { division_name, position, emp_id, team_name } = emp_data
-
-  const divisions = getData()
-
-  for (const division of divisions) {
-    if (division["division_name"] === division_name) {
-      if (position === "Head" || position === "CEO") {
-        division.head = emp_data
-      } else if (position === "Team Leader") {
-        for (const team of division.teams) {
-          if (team.name === team_name) {
-            team.lead = emp_data
-          }
-        }
-      } else if (position === "Team Member") {
-        for (const team of division.teams) {
-          if (team.name === team_name) {
-            let updateMembers = []
-            for (const member of team.members) {
-              if (member.emp_id !== emp_id) {
-                updateMembers.push(member)
-              }
-            }
-            updateMembers.push(emp_data)
-            team.members = updateMembers
-          }
-        }
-      }
-    }
-  }
-  localStorage.setItem("data", JSON.stringify(divisions))
-  setData(divisions)
+export function change_team(emp_data, new_team, setChangeTeam) {
+  let data = getData()
+  data = data.filter((emp) => emp.emp_id !== emp_data.emp_id)
+  data.push({ ...emp_data, team_name: new_team })
+  localStorage.setItem("data", JSON.stringify(data))
+  setChangeTeam((old) => !old)
 }
 
-export function add_team(team_data, setData) {
-  const { team_name, division_name, emp_data } = team_data
-  const { name, emp_id, email, phone } = emp_data
-
-  const divisions = getData()
-
-  for (const division of divisions) {
-    if (division["division_name"] === division_name) {
-      division.teams.push({
-        name: team_name,
-        lead: {
-          name: name,
-          position: "Team Leader",
-          emp_id: emp_id || count++,
-          phone: phone,
-          email: email,
-        },
-        members: [],
-      })
-    }
-  }
-  localStorage.setItem("data", JSON.stringify(divisions))
-  setData(divisions)
+export function edit_team_member(emp_data, setter) {
+  let data = getData()
+  data = data.filter((emp) => emp.emp_id !== emp_data.emp_id)
+  data.push(emp_data)
+  const memberlist = update_member_list(
+    data,
+    emp_data.division_name,
+    emp_data.team_name
+  )
+  setter(memberlist)
+  localStorage.setItem("data", JSON.stringify(data))
 }
-export function del_team(team_name, division_name, setData) {
-  const divisions = getData()
 
-  for (const division of divisions) {
-    if (division["division_name"] === division_name) {
-      let updatedTeams = []
-
-      for (const team of division.teams) {
-        if (team.name !== team_name) {
-          updatedTeams.push(team)
-        }
-      }
-      division.teams = updatedTeams
+export function update_team_list(division_name, data) {
+  let teamCount = new Map()
+  data.forEach((emp) => {
+    if (emp.division_name === division_name) {
+      teamCount[emp.team_name] = teamCount[emp.team_name] + 1 || 1
     }
+  })
+  let teamlist = []
+  for (const team in teamCount) {
+    teamlist.push(team)
   }
-  localStorage.setItem("data", JSON.stringify(divisions))
-  setData(divisions)
+  return teamlist.filter((team) => team !== "null")
+}
+
+export function add_team(emp_data, setter) {
+  emp_data.emp_id = emp_data.emp_id || count++
+  emp_data.position = "Team Leader"
+  const data = getData()
+  data.push(emp_data)
+  const teamlist = update_team_list(emp_data.division_name, data)
+  setter(teamlist)
+  localStorage.setItem("data", JSON.stringify(data))
+}
+export function del_team(team_name, division_name, setter) {
+  let data = getData()
+  data = data.filter((emp) => emp.team_name !== team_name)
+  const teamlist = update_team_list(division_name, data)
+  setter(teamlist)
+  localStorage.setItem("data", JSON.stringify(data))
 }
 
 export function check_team_name(team_name, division_name) {
-  const divisions = getData()
-  for (const division of divisions) {
-    if (division.division_name === division_name) {
-      for (const team of division.teams) {
-        if (team.name === team_name) {
-          return true
-        }
-      }
+  const data = getData()
+  for (const emp of data) {
+    if (emp.division_name === division_name && emp.team_name === team_name) {
+      return true
     }
   }
 

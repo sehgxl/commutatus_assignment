@@ -4,13 +4,10 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 import AddMemberform from "./AddMemberform"
 import EditMemberForm from "./EditMemberform"
 import AddTeamForm from "./AddTeamForm"
-export default function Sidepanel({
-  open,
-  setOpen,
-  team_name,
-  division_name,
-  emp_data,
-}) {
+export default function Sidepanel(props) {
+  const { open, setOpen, setter, form, division_name, team_name, emp_data } =
+    props
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -62,35 +59,63 @@ export default function Sidepanel({
                   </Transition.Child>
                   <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
                     <div className="px-4 sm:px-6">
-                      {emp_data !== undefined ? (
-                        <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                          Edit Team Member Details
-                        </Dialog.Title>
-                      ) : team_name ? (
-                        <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                          Add Team Member Details
-                        </Dialog.Title>
-                      ) : (
-                        <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                          Add Team Details
-                        </Dialog.Title>
-                      )}
+                      <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
+                        {
+                          {
+                            add_team: "Add team details",
+                            add_team_member: "Add team member details",
+                            edit_team_member: "Edit Team Member details",
+                          }[form]
+                        }
+                      </Dialog.Title>
                     </div>
                     <div className="relative flex-1 px-4 sm:px-6">
-                      {emp_data !== undefined ? (
-                        <EditMemberForm setOpen={setOpen} emp_data={emp_data} />
+                      {
+                        {
+                          add_team: (
+                            <AddTeamForm
+                              division_name={division_name}
+                              setter={setter}
+                              setOpen={setOpen}
+                            />
+                          ),
+                          add_team_member: (
+                            <AddMemberform
+                              division_name={division_name}
+                              team_name={team_name}
+                              setter={setter}
+                              setOpen={setOpen}
+                            />
+                          ),
+                          edit_team_member: (
+                            <EditMemberForm
+                              emp_data={emp_data}
+                              setter={setter}
+                              setOpen={setOpen}
+                            />
+                          ),
+                        }[form]
+                      }
+                      {/* {emp_data !== undefined ? (
+                        <EditMemberForm
+                          // setter={setter}
+                          setOpen={setOpen}
+                          emp_data={emp_data}
+                        />
                       ) : team_name ? (
                         <AddMemberform
                           division_name={division_name}
+                          // setter={setter}
                           setOpen={setOpen}
                           team_name={team_name}
                         />
                       ) : (
                         <AddTeamForm
                           division_name={division_name}
+                          setter={setter}
                           setOpen={setOpen}
                         />
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </Dialog.Panel>

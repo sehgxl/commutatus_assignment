@@ -2,12 +2,35 @@ import { useContext, useState } from "react"
 import Sidepanel from "../Components/Sidepanel"
 import Employee from "./Employee"
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline"
-import { del_team } from "../utils/form_handlers"
-import { DataContext } from "../utils/datacontext"
-const Team = ({ team_name, lead, members, division_name }) => {
+import { add_team, del_team, update_member_list } from "../utils/form_handlers"
+import { DataContext, SearchContext } from "../utils/datacontext"
+import { useEffect } from "react"
+import { getData } from "../utils/data_handlers"
+
+const Team = ({
+  team_name,
+  division_name,
+  setter,
+  setChangeTeam,
+  changeTeam,
+}) => {
   const [open, setOpen] = useState(false)
   const [Child, setChild] = useState(true)
-  const setData = useContext(DataContext)
+  const [Members, setMembers] = useState([])
+  const searchField = useContext(SearchContext)
+  useEffect(() => {
+    let data = getData()
+    data = data.filter((emp) => {
+      return (
+        emp.name.toLowerCase().includes(searchField.toLowerCase()) ||
+        emp.email.toLowerCase().includes(searchField.toLowerCase()) ||
+        emp.phone.includes(searchField)
+      )
+    })
+    const memberlist = update_member_list(data, division_name, team_name)
+    setMembers(memberlist)
+  }, [division_name, team_name, changeTeam, searchField])
+
   return (
     <section className="ml-20">
       <Sidepanel
@@ -15,9 +38,65 @@ const Team = ({ team_name, lead, members, division_name }) => {
         setOpen={setOpen}
         division_name={division_name}
         team_name={team_name}
+        setter={setMembers}
+        form="add_team_member"
       />
+      <h1 className="text-xl">{team_name}</h1>
 
-      <div className=" flex w-max flex-col">
+      <section className="mt-4 flex flex-col gap-4">
+        <div className="flex flex-row flex-wrap gap-4">
+          {Members.filter(
+            (member) =>
+              member.team_name !== "null" && member.position === "Team Leader"
+          ).map((member, idx) => {
+            return (
+              <Employee
+                setter={setMembers}
+                setChangeTeam={setChangeTeam}
+                emp_data={member}
+                key={idx}
+              />
+            )
+          })}
+
+          <button
+            onClick={() => {
+              del_team(team_name, division_name, setter)
+            }}
+            className="transiton h-max self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-red-300"
+          >
+            Delete this team
+          </button>
+        </div>
+
+        <div className="flex flex-row flex-wrap gap-4">
+          {Members.filter(
+            (member) =>
+              member.team_name !== "null" && member.position !== "Team Leader"
+          )
+            .sort((a, b) => a.emp_id - b.emp_id)
+            .map((member, idx) => {
+              return (
+                <Employee
+                  emp_data={member}
+                  setter={setMembers}
+                  setChangeTeam={setChangeTeam}
+                  key={idx}
+                />
+              )
+            })}
+          <button
+            onClick={() => {
+              setOpen(true)
+            }}
+            className="transiton h-max self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-blue-300"
+          >
+            Add a Member
+          </button>
+        </div>
+      </section>
+
+      {/* <div className=" flex w-max flex-col">
         <div className="flex flex-row gap-2 py-3">
           <button
             className=""
@@ -86,8 +165,8 @@ const Team = ({ team_name, lead, members, division_name }) => {
               </button>
             </section>
           </div>
-        ) : null}
-      </div>
+        ) : null} */}
+      {/* </div> */}
     </section>
   )
 }
