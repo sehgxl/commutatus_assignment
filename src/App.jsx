@@ -32,8 +32,9 @@ function App() {
         })
         console.log(data)
         let divisionCount = new Map()
+        if (data.length === 0) setCEO(undefined)
         data.forEach((emp) => {
-          if (emp.position === "CEO" && data.length !== 0) {
+          if (emp.position === "CEO") {
             setCEO(emp)
           } else {
             setCEO(undefined)
