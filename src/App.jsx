@@ -16,36 +16,37 @@ function App() {
     try {
       setLoading(true)
       if (
-        localStorage.getItem("data") === "" ||
-        localStorage.getItem("data") === null
+        localStorage.getItem("emp_data") === "" ||
+        localStorage.getItem("emp_data") === null
       ) {
         popuplateData()
-      }
-      let data = getData()
-      data = data.filter((emp) => {
-        return (
-          emp.name.toLowerCase().includes(searchField.toLowerCase()) ||
-          emp.email.toLowerCase().includes(searchField.toLowerCase()) ||
-          emp.phone.includes(searchField)
-        )
-      })
+      } else {
+        let data = getData()
+        data = data.filter((emp) => {
+          return (
+            emp.name.toLowerCase().includes(searchField.toLowerCase()) ||
+            emp.email.toLowerCase().includes(searchField.toLowerCase()) ||
+            emp.phone.includes(searchField)
+          )
+        })
 
-      let divisionCount = new Map()
-      data.forEach((emp) => {
-        if (emp.position === "CEO") {
-          setCEO(emp)
-        } else {
-          setCEO(undefined)
+        let divisionCount = new Map()
+        data.forEach((emp) => {
+          if (emp.position === "CEO") {
+            setCEO(emp)
+          } else {
+            setCEO(undefined)
+          }
+          divisionCount[emp.division_name] =
+            divisionCount[emp.division_name] + 1 || 1
+        })
+        let divisionList = []
+        for (const division in divisionCount) {
+          divisionList.push(division)
         }
-        divisionCount[emp.division_name] =
-          divisionCount[emp.division_name] + 1 || 1
-      })
-      let divisionList = []
-      for (const division in divisionCount) {
-        divisionList.push(division)
+        setDivisions(divisionList.filter((division) => division !== "null"))
+        setLoading(false)
       }
-      setDivisions(divisionList.filter((division) => division !== "null"))
-      setLoading(false)
     } catch (error) {
       setError(true)
       console.log(error)

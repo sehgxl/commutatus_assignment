@@ -18,7 +18,7 @@ export function del_team_member(emp_data, setter) {
   data = data.filter((emp) => emp.emp_id !== emp_id)
   const member_list = update_member_list(data, division_name, team_name)
   setter(member_list)
-  localStorage.setItem("data", JSON.stringify(data))
+  localStorage.setItem("emp_data", JSON.stringify(data))
 }
 
 export function add_team_member(emp, setter) {
@@ -29,14 +29,14 @@ export function add_team_member(emp, setter) {
   data.push(emp)
   const memberlist = update_member_list(data, emp.division_name, emp.team_name)
   setter(memberlist)
-  localStorage.setItem("data", JSON.stringify(data))
+  localStorage.setItem("emp_data", JSON.stringify(data))
 }
 
 export function change_team(emp_data, new_team, setChangeTeam) {
   let data = getData()
   data = data.filter((emp) => emp.emp_id !== emp_data.emp_id)
   data.push({ ...emp_data, team_name: new_team })
-  localStorage.setItem("data", JSON.stringify(data))
+  localStorage.setItem("emp_data", JSON.stringify(data))
   setChangeTeam((old) => !old)
 }
 
@@ -50,7 +50,7 @@ export function edit_team_member(emp_data, setter) {
     emp_data.team_name
   )
   setter(memberlist)
-  localStorage.setItem("data", JSON.stringify(data))
+  localStorage.setItem("emp_data", JSON.stringify(data))
 }
 
 export function update_team_list(division_name, data) {
@@ -74,14 +74,14 @@ export function add_team(emp_data, setter) {
   data.push(emp_data)
   const teamlist = update_team_list(emp_data.division_name, data)
   setter(teamlist)
-  localStorage.setItem("data", JSON.stringify(data))
+  localStorage.setItem("emp_data", JSON.stringify(data))
 }
 export function del_team(team_name, division_name, setter) {
   let data = getData()
   data = data.filter((emp) => emp.team_name !== team_name)
   const teamlist = update_team_list(division_name, data)
   setter(teamlist)
-  localStorage.setItem("data", JSON.stringify(data))
+  localStorage.setItem("emp_data", JSON.stringify(data))
 }
 
 export function check_team_name(team_name, division_name) {
