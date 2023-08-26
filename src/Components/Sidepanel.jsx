@@ -106,26 +106,6 @@ export default function Sidepanel(props) {
                           ),
                         }[form]
                       }
-                      {/* {emp_data !== undefined ? (
-                        <EditMemberForm
-                          // setter={setter}
-                          setOpen={setOpen}
-                          emp_data={emp_data}
-                        />
-                      ) : team_name ? (
-                        <AddMemberform
-                          division_name={division_name}
-                          // setter={setter}
-                          setOpen={setOpen}
-                          team_name={team_name}
-                        />
-                      ) : (
-                        <AddTeamForm
-                          division_name={division_name}
-                          setter={setter}
-                          setOpen={setOpen}
-                        />
-                      )} */}
                     </div>
                   </div>
                 </Dialog.Panel>

@@ -5,6 +5,7 @@ import Division from "./Components/Division"
 // import { data } from "./data"
 import { getData, popuplateData } from "./utils/data_handlers"
 import Employee from "./Components/Employee"
+import SearchBar from "./Components/SearchBar"
 function App() {
   const [data, setdata] = useState([])
   const [Loading, setLoading] = useState(false)
@@ -29,10 +30,10 @@ function App() {
             emp.phone.includes(searchField)
           )
         })
-
+        console.log(data)
         let divisionCount = new Map()
         data.forEach((emp) => {
-          if (emp.position === "CEO") {
+          if (emp.position === "CEO" && data.length !== 0) {
             setCEO(emp)
           } else {
             setCEO(undefined)
@@ -64,13 +65,7 @@ function App() {
           ) : (
             <>
               <h1 className="text-center text-3xl">Employees</h1>
-              <input
-                onChange={(e) => {
-                  setSearchField(e.target.value)
-                }}
-                className="mx-96 rounded-lg border-0 border-gray-500 bg-gray-50 px-5 py-3 text-lg drop-shadow-lg transition delay-75 ease-in-out focus:scale-110 focus:outline-none"
-                type="text"
-              />
+              <SearchBar setSearchField={setSearchField} />
               {CEO ? <Employee emp_data={CEO} /> : null}
 
               {Divisions.map((division_name, idx) => {

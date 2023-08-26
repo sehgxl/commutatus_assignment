@@ -93,50 +93,6 @@ const Division = ({ division_name }) => {
               </>
             ) : null}
           </section>
-
-          /* {Child ? (
-        <section
-          className={`${
-            head.position === "CEO" ? null : "ml-20"
-          } mt-2 border-l-2 border-neutral-300 pl-2`}
-        >
-          <div className="flex flex-row gap-4">
-            <Employee
-              emp_data={{
-                name: head.name,
-                position: head.position,
-                team_name: head.team_name,
-                emp_id: head.emp_id,
-                phone: head.phone,
-                email: head.email,
-                division_name: division_name,
-              }}
-            />
-            <button
-              onClick={() => {
-                setOpen(true)
-              }}
-              className="transiton h-max self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-blue-300"
-            >
-              Add a Team
-            </button>
-          </div>
-
-          {teams?.map((team, idx) => {
-            const { name, lead, members } = team
-
-            return (
-              <Team
-                division_name={division_name}
-                key={idx}
-                team_name={name}
-                lead={lead}
-                members={members}
-              />
-            )
-          })}
-        </section>
-      ) : null} */
         }
       </section>
     </DataContext.Provider>
