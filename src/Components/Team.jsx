@@ -94,24 +94,26 @@ const Team = ({
               )
             })}
 
-            <button
-              onClick={() => {
-                del_team(team_name, division_name, setter)
-              }}
-              className="transiton h-max self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-red-300"
-            >
-              Delete this team
-            </button>
+            <div className="flex flex-col gap-4 ">
+              <button
+                onClick={() => {
+                  del_team(team_name, division_name, setter)
+                }}
+                className="transiton w-full self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-red-300"
+              >
+                Delete this team
+              </button>
 
-            <button
-              onClick={() => {
-                setForm("edit_team_form")
-                setOpen(true)
-              }}
-              className="transiton h-max self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-red-300"
-            >
-              Edit this team
-            </button>
+              <button
+                onClick={() => {
+                  setForm("edit_team_form")
+                  setOpen(true)
+                }}
+                className="transiton w-full self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-red-300"
+              >
+                Edit this team
+              </button>
+            </div>
           </div>
 
           <div className="flex flex-row flex-wrap gap-4">
