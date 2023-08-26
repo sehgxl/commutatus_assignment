@@ -21,34 +21,32 @@ function App() {
         localStorage.getItem("emp_data") === null
       ) {
         popuplateData()
-      } else {
-        let data = getData()
-        data = data.filter((emp) => {
-          return (
-            emp.name.toLowerCase().includes(searchField.toLowerCase()) ||
-            emp.email.toLowerCase().includes(searchField.toLowerCase()) ||
-            emp.phone.includes(searchField)
-          )
-        })
-        console.log(data)
-        let divisionCount = new Map()
-        if (data.length === 0) setCEO(undefined)
-        data.forEach((emp) => {
-          if (emp.position === "CEO") {
-            setCEO(emp)
-          } else {
-            setCEO(undefined)
-          }
-          divisionCount[emp.division_name] =
-            divisionCount[emp.division_name] + 1 || 1
-        })
-        let divisionList = []
-        for (const division in divisionCount) {
-          divisionList.push(division)
-        }
-        setDivisions(divisionList.filter((division) => division !== "null"))
-        setLoading(false)
       }
+      let data = getData()
+      data = data.filter((emp) => {
+        return (
+          emp.name.toLowerCase().includes(searchField.toLowerCase()) ||
+          emp.email.toLowerCase().includes(searchField.toLowerCase()) ||
+          emp.phone.includes(searchField)
+        )
+      })
+      let divisionCount = new Map()
+      if (data.length === 0) setCEO(undefined)
+      data.forEach((emp) => {
+        if (emp.position === "CEO") {
+          setCEO(emp)
+        } else {
+          setCEO(undefined)
+        }
+        divisionCount[emp.division_name] =
+          divisionCount[emp.division_name] + 1 || 1
+      })
+      let divisionList = []
+      for (const division in divisionCount) {
+        divisionList.push(division)
+      }
+      setDivisions(divisionList.filter((division) => division !== "null"))
+      setLoading(false)
     } catch (error) {
       setError(true)
       console.log(error)
