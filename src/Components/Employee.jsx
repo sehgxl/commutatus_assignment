@@ -5,7 +5,7 @@ import { DataContext } from "../utils/datacontext"
 import { useState } from "react"
 import Sidepanel from "./Sidepanel"
 const Employee = ({ emp_data, setter, setChangeTeam }) => {
-  const { name, position, email } = emp_data
+  const { name, position, email, phone } = emp_data
   const [open, setOpen] = useState(false)
 
   const setData = useContext(DataContext)
@@ -18,13 +18,14 @@ const Employee = ({ emp_data, setter, setChangeTeam }) => {
         form="edit_team_member"
         emp_data={emp_data}
       />
-      <section className="flex max-w-[240px] flex-col gap-6 rounded-lg bg-neutral-50 px-4 py-3 drop-shadow-lg transition duration-150 ease-out hover:scale-105">
-        <div className="flex flex-col gap-2 break-words">
+      <section className="flex w-max flex-col justify-between gap-6 rounded-lg bg-neutral-50 px-4 py-3 drop-shadow-lg transition duration-150 ease-out hover:scale-105">
+        <div className="flex flex-col gap-2 ">
           <h1 className="text-xl">
             {name.charAt(0).toUpperCase() + name.slice(1)}
           </h1>
           <p className="font-semibold">{position}</p>
-          <p className=" text-gray-900">{email}</p>
+          <p className=" w-40 break-words text-gray-900">{email}</p>
+          <p>{phone}</p>
         </div>
 
         {position === "Team Member" ? (

@@ -84,6 +84,23 @@ export function del_team(team_name, division_name, setter) {
   localStorage.setItem("emp_data", JSON.stringify(data))
 }
 
+export function change_team_name(
+  division_name,
+  team_name,
+  new_team_name,
+  setter
+) {
+  let data = getData()
+  data.forEach((emp) => {
+    if (emp.team_name === team_name) {
+      emp.team_name = new_team_name
+    }
+  })
+  const teamlist = update_team_list(division_name, data)
+  setter(teamlist)
+  localStorage.setItem("emp_data", JSON.stringify(data))
+}
+
 export function check_team_name(team_name, division_name) {
   const data = getData()
   for (const emp of data) {

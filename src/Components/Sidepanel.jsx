@@ -2,8 +2,9 @@ import { Fragment } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import AddMemberform from "./AddMemberform"
-import EditMemberForm from "./EditMemberform"
+import EditMemberForm from "./EditMemberForm"
 import AddTeamForm from "./AddTeamForm"
+import EditTeamForm from "./EditTeamForm"
 export default function Sidepanel(props) {
   const { open, setOpen, setter, form, division_name, team_name, emp_data } =
     props
@@ -65,6 +66,7 @@ export default function Sidepanel(props) {
                             add_team: "Add team details",
                             add_team_member: "Add team member details",
                             edit_team_member: "Edit Team Member details",
+                            edit_team_form: "Edit Team Name",
                           }[form]
                         }
                       </Dialog.Title>
@@ -92,6 +94,14 @@ export default function Sidepanel(props) {
                               emp_data={emp_data}
                               setter={setter}
                               setOpen={setOpen}
+                            />
+                          ),
+                          edit_team_form: (
+                            <EditTeamForm
+                              division_name={division_name}
+                              setter={setter}
+                              setOpen={setOpen}
+                              team_name={team_name}
                             />
                           ),
                         }[form]

@@ -63,10 +63,10 @@ const Division = ({ division_name }) => {
         </div>
 
         {
-          <section className="flex flex-col gap-4">
+          <section className="flex flex-col gap-4 border-l-2 border-neutral-300 pl-2">
             {Child ? (
               <>
-                <div className="flex flex-row gap-4">
+                <div className="mt-2 flex flex-row gap-4">
                   {TeamLead ? <Employee emp_data={TeamLead} /> : null}
                   <button
                     onClick={() => {

@@ -17,6 +17,7 @@ const Team = ({
   const [open, setOpen] = useState(false)
   const [Child, setChild] = useState(true)
   const [Members, setMembers] = useState([])
+  const [Form, setForm] = useState("add_team_member")
   const searchField = useContext(SearchContext)
   useEffect(() => {
     let data = getData()
@@ -33,68 +34,114 @@ const Team = ({
 
   return (
     <section className="ml-20">
-      <Sidepanel
-        open={open}
-        setOpen={setOpen}
-        division_name={division_name}
-        team_name={team_name}
-        setter={setMembers}
-        form="add_team_member"
-      />
-      <h1 className="text-xl">{team_name}</h1>
+      {
+        {
+          add_team_member: (
+            <Sidepanel
+              open={open}
+              setOpen={setOpen}
+              division_name={division_name}
+              team_name={team_name}
+              setter={setMembers}
+              form={Form}
+            />
+          ),
+          edit_team_form: (
+            <Sidepanel
+              open={open}
+              setOpen={setOpen}
+              division_name={division_name}
+              team_name={team_name}
+              setter={setter}
+              form={Form}
+            />
+          ),
+        }[Form]
+      }
 
-      <section className="mt-4 flex flex-col gap-4">
-        <div className="flex flex-row flex-wrap gap-4">
-          {Members.filter(
-            (member) =>
-              member.team_name !== "null" && member.position === "Team Leader"
-          ).map((member, idx) => {
-            return (
-              <Employee
-                setter={setMembers}
-                setChangeTeam={setChangeTeam}
-                emp_data={member}
-                key={idx}
-              />
-            )
-          })}
+      <div className="flex flex-row gap-2">
+        <button
+          className=""
+          onClick={() => {
+            setChild((old) => !old)
+          }}
+        >
+          {Child ? (
+            <ChevronDownIcon className="h-4 w-4" />
+          ) : (
+            <ChevronRightIcon className="h-4 w-4" />
+          )}
+        </button>
+        <h1 onClick={() => {}} className="text-xl">
+          {team_name}
+        </h1>
+      </div>
 
-          <button
-            onClick={() => {
-              del_team(team_name, division_name, setter)
-            }}
-            className="transiton h-max self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-red-300"
-          >
-            Delete this team
-          </button>
-        </div>
-
-        <div className="flex flex-row flex-wrap gap-4">
-          {Members.filter(
-            (member) =>
-              member.team_name !== "null" && member.position !== "Team Leader"
-          )
-            .sort((a, b) => a.emp_id - b.emp_id)
-            .map((member, idx) => {
+      {Child ? (
+        <section className="mt-2 flex flex-col gap-4 border-l-2 border-neutral-300 pl-2">
+          <div className="flex flex-row flex-wrap gap-4">
+            {Members.filter(
+              (member) =>
+                member.team_name !== "null" && member.position === "Team Leader"
+            ).map((member, idx) => {
               return (
                 <Employee
-                  emp_data={member}
                   setter={setMembers}
                   setChangeTeam={setChangeTeam}
+                  emp_data={member}
                   key={idx}
                 />
               )
             })}
-          <button
-            onClick={() => {
-              setOpen(true)
-            }}
-            className="transiton h-max self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-blue-300"
-          >
-            Add a Member
-          </button>
-        </div>
-      </section>
+
+            <button
+              onClick={() => {
+                del_team(team_name, division_name, setter)
+              }}
+              className="transiton h-max self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-red-300"
+            >
+              Delete this team
+            </button>
+
+            <button
+              onClick={() => {
+                setForm("edit_team_form")
+                setOpen(true)
+              }}
+              className="transiton h-max self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-red-300"
+            >
+              Edit this team
+            </button>
+          </div>
+
+          <div className="flex flex-row flex-wrap gap-4">
+            {Members.filter(
+              (member) =>
+                member.team_name !== "null" && member.position !== "Team Leader"
+            )
+              .sort((a, b) => a.emp_id - b.emp_id)
+              .map((member, idx) => {
+                return (
+                  <Employee
+                    emp_data={member}
+                    setter={setMembers}
+                    setChangeTeam={setChangeTeam}
+                    key={idx}
+                  />
+                )
+              })}
+            <button
+              onClick={() => {
+                setForm("add_team_member")
+                setOpen(true)
+              }}
+              className="transiton h-max self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-blue-300"
+            >
+              Add a Member
+            </button>
+          </div>
+        </section>
+      ) : null}
 
       {/* <div className=" flex w-max flex-col">
         <div className="flex flex-row gap-2 py-3">
