@@ -17,6 +17,7 @@ function App() {
       setLoading(true)
       if (
         localStorage.getItem("emp_data") === "" ||
+        localStorage.getItem("emp_data") === "null" ||
         localStorage.getItem("emp_data") === null
       ) {
         popuplateData()
