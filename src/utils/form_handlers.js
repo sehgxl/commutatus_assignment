@@ -1,5 +1,5 @@
 import { clearData, getData } from "./data_handlers"
-let count = 18
+let count = 20
 
 export function update_member_list(data, division_name, team_name) {
   let memberlist = []

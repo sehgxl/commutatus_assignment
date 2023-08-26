@@ -109,7 +109,7 @@ const Team = ({
                   setForm("edit_team_form")
                   setOpen(true)
                 }}
-                className="transiton w-full self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-red-300"
+                className="transiton w-full self-start rounded-lg bg-gray-300 px-5 py-2 duration-150 ease-out hover:scale-105 hover:bg-purple-300"
               >
                 Edit this team
               </button>

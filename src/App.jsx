@@ -7,12 +7,11 @@ import { getData, popuplateData } from "./utils/data_handlers"
 import Employee from "./Components/Employee"
 import SearchBar from "./Components/SearchBar"
 function App() {
-  const [data, setdata] = useState([])
+  const [Data, setData] = useState([])
   const [Loading, setLoading] = useState(false)
   const [Error, setError] = useState(false)
   const [Divisions, setDivisions] = useState([])
   const [searchField, setSearchField] = useState("")
-  const [CEO, setCEO] = useState()
   useEffect(() => {
     try {
       setLoading(true)
@@ -30,14 +29,9 @@ function App() {
           emp.phone.includes(searchField)
         )
       })
+      setData(data)
       let divisionCount = new Map()
-      if (data.length === 0) setCEO(undefined)
       data.forEach((emp) => {
-        if (emp.position === "CEO") {
-          setCEO(emp)
-        } else {
-          setCEO(undefined)
-        }
         divisionCount[emp.division_name] =
           divisionCount[emp.division_name] + 1 || 1
       })
@@ -51,7 +45,7 @@ function App() {
       setError(true)
       console.log(error)
     }
-  }, [data, searchField])
+  }, [searchField])
 
   return (
     <SearchContext.Provider value={searchField}>
@@ -65,8 +59,9 @@ function App() {
             <>
               <h1 className="text-center text-3xl">Employees</h1>
               <SearchBar setSearchField={setSearchField} />
-              {CEO ? <Employee emp_data={CEO} /> : null}
-
+              {Data.filter((emp) => emp.position === "CEO").map((emp) => (
+                <Employee key={"CEO"} emp_data={emp} />
+              ))}
               {Divisions.map((division_name, idx) => {
                 return <Division key={idx} division_name={division_name} />
               })}

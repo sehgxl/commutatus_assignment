@@ -114,7 +114,7 @@ export const dummyData = [
     phone: "6948423852",
     team_name: "DevOps",
     division_name: "Engineering",
-    position: "Team Member",
+    position: "Team Leader",
   },
   {
     emp_id: 14,
